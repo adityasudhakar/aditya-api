@@ -1,0 +1,2664 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"CoverMedia": {
+				"properties": {
+					"image": {
+						"type": "string",
+						"description": "Image url."
+					},
+					"video": {
+						"type": "string",
+						"description": "Video url."
+					},
+					"enabled": {
+						"type": "boolean",
+						"description": "Is cover media enabled.\nSelected by user whether to display cover media on the feed"
+					},
+					"displayed": {
+						"type": "boolean",
+						"description": "Whether cover media is displayed."
+					},
+					"custom": {
+						"type": "boolean",
+						"description": "Whether the cover media is custom.\n\n`false` if the cover media is the first image or video in the post. `true` if set to some other image or video."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Record_string.any_": {
+				"properties": {},
+				"additionalProperties": {},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
+			"Tag": {
+				"properties": {
+					"type": {
+						"type": "string",
+						"description": "SEO tag type.\n\n\nSupported values: `title`, `meta`, `script`, `link`."
+					},
+					"props": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Record_string.any_"
+							}
+						],
+						"nullable": true,
+						"description": "A `{'key':'value'}` pair object where each SEO tag property (`'name'`, `'content'`, `'rel'`, `'href'`) contains a value.\nFor example: `{'name': 'description', 'content': 'the description itself'}`."
+					},
+					"meta": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Record_string.any_"
+							}
+						],
+						"nullable": true,
+						"description": "SEO tag meta data. For example, `{height: 300, width: 240}`."
+					},
+					"children": {
+						"type": "string",
+						"description": "SEO tag inner content. For example, `<title> inner content </title>`."
+					},
+					"custom": {
+						"type": "boolean",
+						"description": "Whether the tag is a custom tag."
+					},
+					"disabled": {
+						"type": "boolean",
+						"description": "Whether the tag is disabled."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Keyword": {
+				"properties": {
+					"term": {
+						"type": "string",
+						"description": "Keyword value."
+					},
+					"isMain": {
+						"type": "boolean",
+						"description": "Whether the keyword is the main focus keyword."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Settings": {
+				"properties": {
+					"preventAutoRedirect": {
+						"type": "boolean",
+						"description": "Whether the Auto Redirect feature, which creates `301 redirects` on a slug change, is enabled.\n\n\nDefault: `false` (Auto Redirect is enabled.)"
+					},
+					"keywords": {
+						"items": {
+							"$ref": "#/components/schemas/Keyword"
+						},
+						"type": "array",
+						"description": "User-selected keyword terms for a specific page."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SeoSchema": {
+				"description": "The SEO schema object contains data about different types of meta tags. It makes sure that the information about your page is presented properly to search engines.\nThe search engines use this information for ranking purposes, or to display snippets in the search results.\nThis data will override other sources of tags (for example patterns) and will be included in the <head> section of the HTML document, while not being displayed on the page itself.",
+				"properties": {
+					"tags": {
+						"items": {
+							"$ref": "#/components/schemas/Tag"
+						},
+						"type": "array",
+						"description": "SEO tag information."
+					},
+					"settings": {
+						"$ref": "#/components/schemas/Settings",
+						"description": "SEO general settings."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"WidthType": {
+				"enum": [
+					"CONTENT",
+					"SMALL",
+					"ORIGINAL",
+					"FULL_WIDTH"
+				],
+				"type": "string"
+			},
+			"PluginContainerDataWidth": {
+				"properties": {
+					"size": {
+						"$ref": "#/components/schemas/WidthType",
+						"description": "One of the following predefined width options:\n`CONTENT`: The width of the container matches the content width.\n`SMALL`: Small width.\n`ORIGINAL`: The width of the container matches the original asset width.\n`FULL_WIDTH`: Full width."
+					},
+					"custom": {
+						"type": "string",
+						"nullable": true,
+						"description": "A custom width value in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PluginContainerDataAlignment": {
+				"enum": [
+					"CENTER",
+					"LEFT",
+					"RIGHT"
+				],
+				"type": "string"
+			},
+			"Spoiler": {
+				"properties": {
+					"enabled": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the spoiler cover is enabled for this node."
+					},
+					"description": {
+						"type": "string",
+						"nullable": true,
+						"description": "The description displayed on top of the spoiler cover."
+					},
+					"buttonText": {
+						"type": "string",
+						"nullable": true,
+						"description": "The text for the button used to remove the spoiler cover."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Height": {
+				"properties": {
+					"custom": {
+						"type": "string",
+						"nullable": true,
+						"description": "A custom height value in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PluginContainerData": {
+				"properties": {
+					"width": {
+						"$ref": "#/components/schemas/PluginContainerDataWidth",
+						"description": "The width of the node when it's displayed."
+					},
+					"alignment": {
+						"$ref": "#/components/schemas/PluginContainerDataAlignment",
+						"description": "The node's alignment within its container."
+					},
+					"spoiler": {
+						"$ref": "#/components/schemas/Spoiler",
+						"description": "Spoiler cover settings for the node."
+					},
+					"height": {
+						"$ref": "#/components/schemas/Height",
+						"description": "The height of the node when it's displayed."
+					},
+					"textWrap": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether text should wrap around this node when it's displayed. If `textWrap` is `false`, the node takes up the width of its container."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Type": {
+				"enum": [
+					"LINK",
+					"ACTION"
+				],
+				"type": "string"
+			},
+			"Border": {
+				"properties": {
+					"width": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Border width in pixels."
+					},
+					"radius": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Border radius in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Colors": {
+				"properties": {
+					"text": {
+						"type": "string",
+						"nullable": true,
+						"description": "The text color as a hexadecimal value."
+					},
+					"border": {
+						"type": "string",
+						"nullable": true,
+						"description": "The border color as a hexadecimal value."
+					},
+					"background": {
+						"type": "string",
+						"nullable": true,
+						"description": "The background color as a hexadecimal value."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Styles": {
+				"properties": {
+					"border": {
+						"$ref": "#/components/schemas/Border",
+						"description": "Border attributes."
+					},
+					"colors": {
+						"$ref": "#/components/schemas/Colors",
+						"description": "Color attributes."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Target": {
+				"enum": [
+					"SELF",
+					"BLANK",
+					"PARENT",
+					"TOP"
+				],
+				"type": "string"
+			},
+			"Rel": {
+				"properties": {
+					"nofollow": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Indicates to search engine crawlers not to follow the link."
+					},
+					"sponsored": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Indicates to search engine crawlers that the link is a paid placement such as sponsored content or an advertisement."
+					},
+					"ugc": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Indicates that this link is user-generated content and isn't necessarily trusted or endorsed by the page’s author. For example, a link in a fourm post."
+					},
+					"noreferrer": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Indicates that this link protect referral information from being passed to the target website."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Link": {
+				"properties": {
+					"url": {
+						"type": "string",
+						"description": "The absolute URL for the linked document."
+					},
+					"anchor": {
+						"type": "string",
+						"description": "The target node's ID. Used for linking to another node in this object."
+					},
+					"target": {
+						"$ref": "#/components/schemas/Target",
+						"description": "he HTML `target` attribute value for the link. This property defines where the linked document opens as follows:\n`SELF` - Default. Opens the linked document in the same frame as the link.\n`BLANK` - Opens the linked document in a new browser tab or window.\n`PARENT` - Opens the linked document in the link's parent frame.\n`TOP` - Opens the linked document in the full body of the link's browser tab or window."
+					},
+					"rel": {
+						"$ref": "#/components/schemas/Rel",
+						"description": "The HTML `rel` attribute value for the link. This object specifies the relationship between the current document and the linked document."
+					},
+					"customData": {
+						"type": "string",
+						"nullable": true,
+						"description": "A serialized object used for a custom or external link panel."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ButtonData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the button's container."
+					},
+					"type": {
+						"$ref": "#/components/schemas/Type",
+						"description": "The button type."
+					},
+					"styles": {
+						"$ref": "#/components/schemas/Styles",
+						"description": "Styling for the button."
+					},
+					"text": {
+						"type": "string",
+						"nullable": true,
+						"description": "The text to display on the button."
+					},
+					"link": {
+						"$ref": "#/components/schemas/Link",
+						"description": "Button link details."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TextAlignment": {
+				"enum": [
+					"AUTO",
+					"LEFT",
+					"RIGHT",
+					"CENTER",
+					"JUSTIFY"
+				],
+				"type": "string"
+			},
+			"TextStyle": {
+				"properties": {
+					"textAlignment": {
+						"$ref": "#/components/schemas/TextAlignment",
+						"description": "Text alignment. Defaults to `AUTO`."
+					},
+					"lineHeight": {
+						"type": "string",
+						"nullable": true,
+						"description": "A CSS `line-height` value for the text as a unitless ratio."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CodeBlockData": {
+				"properties": {
+					"textStyle": {
+						"$ref": "#/components/schemas/TextStyle",
+						"description": "Styling for the code block's text."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LineStyle": {
+				"enum": [
+					"SINGLE",
+					"DOUBLE",
+					"DASHED",
+					"DOTTED"
+				],
+				"type": "string"
+			},
+			"Width": {
+				"enum": [
+					"LARGE",
+					"MEDIUM",
+					"SMALL"
+				],
+				"type": "string"
+			},
+			"Alignment": {
+				"enum": [
+					"CENTER",
+					"LEFT",
+					"RIGHT"
+				],
+				"type": "string"
+			},
+			"DividerData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the divider's container."
+					},
+					"lineStyle": {
+						"$ref": "#/components/schemas/LineStyle",
+						"description": "Divider line style."
+					},
+					"width": {
+						"$ref": "#/components/schemas/Width",
+						"description": "Divider width."
+					},
+					"alignment": {
+						"$ref": "#/components/schemas/Alignment",
+						"description": "Divider alignment."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"FileSource": {
+				"properties": {
+					"url": {
+						"type": "string",
+						"nullable": true,
+						"description": "The absolute URL for the file's source."
+					},
+					"custom": {
+						"type": "string",
+						"nullable": true,
+						"description": "Custom ID. Use `id` instead."
+					},
+					"_id": {
+						"type": "string",
+						"nullable": true,
+						"description": "An ID that's resolved to a URL by a resolver function."
+					},
+					"private": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Indicates whether the file's source is private."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ViewMode": {
+				"enum": [
+					"NONE",
+					"FULL",
+					"MINI"
+				],
+				"type": "string"
+			},
+			"PDFSettings": {
+				"properties": {
+					"viewMode": {
+						"$ref": "#/components/schemas/ViewMode",
+						"description": "PDF view mode. One of the following:\n`NONE` : The PDF isn't displayed.\n`FULL` : A full page view of the PDF is displayed.\n`MINI` : A mini view of the PDF is displayed."
+					},
+					"disableDownload": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the PDF download button is disabled."
+					},
+					"disablePrint": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the PDF print button is disabled."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"FileData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the file's container."
+					},
+					"src": {
+						"$ref": "#/components/schemas/FileSource",
+						"description": "The source for the file's data."
+					},
+					"name": {
+						"type": "string",
+						"nullable": true,
+						"description": "File name."
+					},
+					"type": {
+						"type": "string",
+						"nullable": true,
+						"description": "File type."
+					},
+					"size": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "File size in KB."
+					},
+					"pdfSettings": {
+						"$ref": "#/components/schemas/PDFSettings",
+						"description": "Settings for PDF files."
+					},
+					"mimeType": {
+						"type": "string",
+						"nullable": true,
+						"description": "File MIME type."
+					},
+					"path": {
+						"type": "string",
+						"nullable": true,
+						"description": "File path."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"V1Media": {
+				"properties": {
+					"src": {
+						"$ref": "#/components/schemas/FileSource",
+						"description": "The source for the media's data."
+					},
+					"width": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Media width in pixels."
+					},
+					"height": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Media height in pixels."
+					},
+					"duration": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Media duration in seconds. Only relevant for audio and video files."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Image": {
+				"properties": {
+					"media": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Image file details."
+					},
+					"link": {
+						"$ref": "#/components/schemas/Link",
+						"description": "Link details for images that are links."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Video": {
+				"properties": {
+					"media": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Video file details."
+					},
+					"thumbnail": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Video thumbnail file details."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Item": {
+				"properties": {
+					"image": {
+						"$ref": "#/components/schemas/Image",
+						"description": "An image item."
+					},
+					"video": {
+						"$ref": "#/components/schemas/Video",
+						"description": "A video item."
+					},
+					"title": {
+						"type": "string",
+						"nullable": true,
+						"description": "Item title."
+					},
+					"altText": {
+						"type": "string",
+						"nullable": true,
+						"description": "Item's alternative text."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LayoutType": {
+				"enum": [
+					"COLLAGE",
+					"MASONRY",
+					"GRID",
+					"THUMBNAIL",
+					"SLIDER",
+					"SLIDESHOW",
+					"PANORAMA",
+					"COLUMN",
+					"MAGIC",
+					"FULLSIZE"
+				],
+				"type": "string"
+			},
+			"Orientation": {
+				"enum": [
+					"ROWS",
+					"COLUMNS"
+				],
+				"type": "string"
+			},
+			"Layout": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/LayoutType",
+						"description": "Gallery layout type."
+					},
+					"horizontalScroll": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether horizontal scroll is enabled."
+					},
+					"orientation": {
+						"$ref": "#/components/schemas/Orientation",
+						"description": "Gallery orientation."
+					},
+					"numberOfColumns": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The number of columns to display on full size screens."
+					},
+					"mobileNumberOfColumns": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The number of columns to display on mobile screens."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Crop": {
+				"enum": [
+					"FILL",
+					"FIT"
+				],
+				"type": "string"
+			},
+			"ItemStyle": {
+				"properties": {
+					"targetSize": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Desirable dimension for each item in pixels (behvaior changes according to gallery type)"
+					},
+					"ratio": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Item ratio"
+					},
+					"crop": {
+						"$ref": "#/components/schemas/Crop",
+						"description": "Sets how item images are cropped."
+					},
+					"spacing": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The spacing between items in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ThumbnailsAlignment": {
+				"enum": [
+					"TOP",
+					"RIGHT",
+					"BOTTOM",
+					"LEFT",
+					"NONE"
+				],
+				"type": "string"
+			},
+			"Thumbnails": {
+				"properties": {
+					"placement": {
+						"$ref": "#/components/schemas/ThumbnailsAlignment",
+						"description": "Thumbnail alignment."
+					},
+					"spacing": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Spacing between thumbnails in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GalleryOptions": {
+				"properties": {
+					"layout": {
+						"$ref": "#/components/schemas/Layout",
+						"description": "Gallery layout."
+					},
+					"item": {
+						"$ref": "#/components/schemas/ItemStyle",
+						"description": "Styling for gallery items."
+					},
+					"thumbnails": {
+						"$ref": "#/components/schemas/Thumbnails",
+						"description": "Styling for gallery thumbnail images."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GalleryData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the gallery's container."
+					},
+					"items": {
+						"items": {
+							"$ref": "#/components/schemas/Item"
+						},
+						"type": "array",
+						"description": "The items in the gallery."
+					},
+					"options": {
+						"$ref": "#/components/schemas/GalleryOptions",
+						"description": "Options for defining the gallery's appearance."
+					},
+					"disableExpand": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the gallery's expand button is disabled."
+					},
+					"disableDownload": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the gallery's download button is disabled."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GIF": {
+				"properties": {
+					"gif": {
+						"type": "string",
+						"nullable": true,
+						"description": "GIF format URL."
+					},
+					"mp4": {
+						"type": "string",
+						"nullable": true,
+						"description": "MP4 format URL."
+					},
+					"still": {
+						"type": "string",
+						"nullable": true,
+						"description": "Thumbnail URL."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GIFData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the GIF's container."
+					},
+					"original": {
+						"$ref": "#/components/schemas/GIF",
+						"description": "The source of the full size GIF."
+					},
+					"downsized": {
+						"$ref": "#/components/schemas/GIF",
+						"description": "The source of the downsized GIF."
+					},
+					"height": {
+						"type": "number",
+						"format": "double",
+						"description": "Height in pixels."
+					},
+					"width": {
+						"type": "number",
+						"format": "double",
+						"description": "Width in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HeadingData": {
+				"properties": {
+					"level": {
+						"type": "number",
+						"format": "double",
+						"description": "Heading level from 1-6."
+					},
+					"textStyle": {
+						"$ref": "#/components/schemas/TextStyle",
+						"description": "Styling for the heading text."
+					},
+					"indentation": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Indentation level from 1-6."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Source": {
+				"enum": [
+					"HTML",
+					"ADSENSE"
+				],
+				"type": "string"
+			},
+			"HTMLData": {
+				"properties": {
+					"url": {
+						"type": "string",
+						"description": "The URL for the HTML code for the node."
+					},
+					"html": {
+						"type": "string",
+						"description": "The HTML code for the node."
+					},
+					"isAdsense": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Whether this is an AdSense element. Use `source` instead."
+					},
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the HTML node's container."
+					},
+					"source": {
+						"$ref": "#/components/schemas/Source",
+						"description": "The type of HTML code."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ImageData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the image's container."
+					},
+					"image": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Image file details."
+					},
+					"link": {
+						"$ref": "#/components/schemas/Link",
+						"description": "Link details for images that are links."
+					},
+					"disableExpand": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the image expands to full screen when clicked."
+					},
+					"altText": {
+						"type": "string",
+						"nullable": true,
+						"description": "Image's alternative text."
+					},
+					"caption": {
+						"type": "string",
+						"nullable": true,
+						"description": "Image caption."
+					},
+					"disableDownload": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the image's download button is disabled."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LinkPreviewData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the link preview's container."
+					},
+					"link": {
+						"$ref": "#/components/schemas/Link",
+						"description": "Link details."
+					},
+					"title": {
+						"type": "string",
+						"nullable": true,
+						"description": "Preview title."
+					},
+					"thumbnailUrl": {
+						"type": "string",
+						"nullable": true,
+						"description": "Preview thumbnail URL."
+					},
+					"description": {
+						"type": "string",
+						"nullable": true,
+						"description": "Preview description."
+					},
+					"html": {
+						"type": "string",
+						"nullable": true,
+						"description": "The preview content as HTML."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MapType": {
+				"enum": [
+					"ROADMAP",
+					"SATELITE",
+					"HYBRID",
+					"TERRAIN"
+				],
+				"type": "string"
+			},
+			"MapSettings": {
+				"properties": {
+					"address": {
+						"type": "string",
+						"nullable": true,
+						"description": "The address to display on the map."
+					},
+					"draggable": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the map is draggable."
+					},
+					"marker": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the location marker is visible."
+					},
+					"streetViewControl": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether street view control is enabled."
+					},
+					"zoomControl": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether zoom control is enabled."
+					},
+					"lat": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Location latitude."
+					},
+					"lng": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Location longitude."
+					},
+					"locationName": {
+						"type": "string",
+						"nullable": true,
+						"description": "Location name."
+					},
+					"viewModeControl": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether view mode control is enabled."
+					},
+					"initialZoom": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Initial zoom value."
+					},
+					"mapType": {
+						"$ref": "#/components/schemas/MapType",
+						"description": "Map type. `HYBRID` is a combination of the `ROADMAP` and `SATELLITE` map types."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MapData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the map's container."
+					},
+					"mapSettings": {
+						"$ref": "#/components/schemas/MapSettings",
+						"description": "Map settings."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ParagraphData": {
+				"properties": {
+					"textStyle": {
+						"$ref": "#/components/schemas/TextStyle",
+						"description": "Styling for the paragraph text."
+					},
+					"indentation": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Indentation level from 1-6."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Option": {
+				"properties": {
+					"_id": {
+						"type": "string",
+						"nullable": true,
+						"description": "Option ID."
+					},
+					"title": {
+						"type": "string",
+						"nullable": true,
+						"description": "Option title."
+					},
+					"image": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "The image displayed with the option."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ViewRole": {
+				"enum": [
+					"CREATOR",
+					"VOTERS",
+					"EVERYONE"
+				],
+				"type": "string"
+			},
+			"VoteRole": {
+				"enum": [
+					"SITE_MEMBERS",
+					"ALL"
+				],
+				"type": "string"
+			},
+			"Permissions": {
+				"properties": {
+					"view": {
+						"$ref": "#/components/schemas/ViewRole",
+						"description": "Sets who can view the poll results."
+					},
+					"vote": {
+						"$ref": "#/components/schemas/VoteRole",
+						"description": "Sets who can vote."
+					},
+					"allowMultipleVotes": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether one voter can vote multiple times."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PollSettings": {
+				"properties": {
+					"permissions": {
+						"$ref": "#/components/schemas/Permissions",
+						"description": "Permissions settings for voting."
+					},
+					"showVoters": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether voters are displayed in the vote results."
+					},
+					"showVotesCount": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the vote count is displayed."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Poll": {
+				"properties": {
+					"_id": {
+						"type": "string",
+						"nullable": true,
+						"description": "Poll ID."
+					},
+					"title": {
+						"type": "string",
+						"nullable": true,
+						"description": "Poll title."
+					},
+					"creatorId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Poll creator ID."
+					},
+					"image": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Main poll image."
+					},
+					"options": {
+						"items": {
+							"$ref": "#/components/schemas/Option"
+						},
+						"type": "array",
+						"description": "Voting options."
+					},
+					"settings": {
+						"$ref": "#/components/schemas/PollSettings",
+						"description": "The poll's permissions and display settings."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PollLayoutType": {
+				"enum": [
+					"LIST",
+					"GRID"
+				],
+				"type": "string"
+			},
+			"PollLayoutDirection": {
+				"enum": [
+					"LTR",
+					"RTL"
+				],
+				"type": "string"
+			},
+			"PollLayout": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/PollLayoutType",
+						"description": "The layout for displaying the voting options."
+					},
+					"direction": {
+						"$ref": "#/components/schemas/PollLayoutDirection",
+						"description": "The direction of the text displayed in the voting options. Text can be displayed either right-to-left or left-to-right."
+					},
+					"enableImage": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether to display the main poll image."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OptionLayout": {
+				"properties": {
+					"enableImage": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether to display option images."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PollDataLayout": {
+				"properties": {
+					"poll": {
+						"$ref": "#/components/schemas/PollLayout",
+						"description": "Poll layout settings."
+					},
+					"options": {
+						"$ref": "#/components/schemas/OptionLayout",
+						"description": "Voting otpions layout settings."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Gradient": {
+				"properties": {
+					"angle": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The gradient angle in degrees."
+					},
+					"startColor": {
+						"type": "string",
+						"nullable": true,
+						"description": "The start color as a hexademical value."
+					},
+					"lastColor": {
+						"type": "string",
+						"nullable": true,
+						"description": "The end color as a hexademical value."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BackgroundType": {
+				"enum": [
+					"COLOR",
+					"IMAGE",
+					"GRADIENT"
+				],
+				"type": "string"
+			},
+			"Background": {
+				"properties": {
+					"color": {
+						"type": "string",
+						"nullable": true,
+						"description": "The background color as a hexademical value."
+					},
+					"image": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "An image to use for the background."
+					},
+					"gradient": {
+						"$ref": "#/components/schemas/Gradient",
+						"description": "Details for a gradient background."
+					},
+					"type": {
+						"$ref": "#/components/schemas/BackgroundType",
+						"description": "Background type. For each option, include the relevant details."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PollDesign": {
+				"properties": {
+					"background": {
+						"$ref": "#/components/schemas/Background",
+						"description": "Background styling."
+					},
+					"borderRadius": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Border radius in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OptionDesign": {
+				"properties": {
+					"borderRadius": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Border radius in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Design": {
+				"properties": {
+					"poll": {
+						"$ref": "#/components/schemas/PollDesign",
+						"description": "Styling for the poll."
+					},
+					"options": {
+						"$ref": "#/components/schemas/OptionDesign",
+						"description": "Styling for voting options."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PollData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the poll's container."
+					},
+					"poll": {
+						"$ref": "#/components/schemas/Poll",
+						"description": "Poll data."
+					},
+					"layout": {
+						"$ref": "#/components/schemas/PollDataLayout",
+						"description": "Layout settings for the poll and voting options."
+					},
+					"design": {
+						"$ref": "#/components/schemas/Design",
+						"description": "Styling for the poll and voting options."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AnchorData": {
+				"properties": {
+					"anchor": {
+						"type": "string",
+						"description": "The target node's ID."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ColorData": {
+				"properties": {
+					"background": {
+						"type": "string",
+						"nullable": true,
+						"description": "The text's background color as a hexadecimal value."
+					},
+					"foreground": {
+						"type": "string",
+						"nullable": true,
+						"description": "The text's foreground color as a hexadecimal value."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LinkData": {
+				"properties": {
+					"link": {
+						"$ref": "#/components/schemas/Link",
+						"description": "Link details."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MentionData": {
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "The mentioned user's name."
+					},
+					"slug": {
+						"type": "string",
+						"description": "The version of the user's name that appears after the `@` character in the mention."
+					},
+					"_id": {
+						"type": "string",
+						"nullable": true,
+						"description": "Mentioned user's ID."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"FontType": {
+				"enum": [
+					"PX",
+					"EM"
+				],
+				"type": "string"
+			},
+			"FontSizeData": {
+				"properties": {
+					"unit": {
+						"$ref": "#/components/schemas/FontType",
+						"description": "The units used for the font size."
+					},
+					"value": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Font size value."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DecorationType": {
+				"enum": [
+					"BOLD",
+					"ITALIC",
+					"UNDERLINE",
+					"SPOILER",
+					"ANCHOR",
+					"MENTION",
+					"LINK",
+					"COLOR",
+					"FONT_SIZE",
+					"EXTERNAL"
+				],
+				"type": "string"
+			},
+			"Decoration": {
+				"description": "Adds appearence changes to text",
+				"properties": {
+					"anchorData": {
+						"$ref": "#/components/schemas/AnchorData",
+						"description": "Data for an anchor link decoration."
+					},
+					"colorData": {
+						"$ref": "#/components/schemas/ColorData",
+						"description": "Data for a color decoration."
+					},
+					"linkData": {
+						"$ref": "#/components/schemas/LinkData",
+						"description": "Data for an external link decoration."
+					},
+					"mentionData": {
+						"$ref": "#/components/schemas/MentionData",
+						"description": "Data for a mention decoration."
+					},
+					"fontSizeData": {
+						"$ref": "#/components/schemas/FontSizeData",
+						"description": "Data for a font size decoration."
+					},
+					"fontWeightValue": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "Font weight for a bold decoration."
+					},
+					"italicData": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Data for an italic decoration."
+					},
+					"underlineData": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Data for an underline decoration."
+					},
+					"type": {
+						"$ref": "#/components/schemas/DecorationType",
+						"description": "The type of decoration to apply."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TextData": {
+				"properties": {
+					"text": {
+						"type": "string",
+						"description": "The text to apply decorations to."
+					},
+					"decorations": {
+						"items": {
+							"$ref": "#/components/schemas/Decoration"
+						},
+						"type": "array",
+						"description": "The decorations to apply."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookingData": {
+				"properties": {
+					"durations": {
+						"type": "string",
+						"nullable": true,
+						"description": "Booking duration in minutes."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EventData": {
+				"properties": {
+					"scheduling": {
+						"type": "string",
+						"nullable": true,
+						"description": "Event schedule."
+					},
+					"location": {
+						"type": "string",
+						"nullable": true,
+						"description": "Event location."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AppType": {
+				"enum": [
+					"PRODUCT",
+					"EVENT",
+					"BOOKING"
+				],
+				"type": "string"
+			},
+			"AppEmbedData": {
+				"properties": {
+					"bookingData": {
+						"$ref": "#/components/schemas/BookingData",
+						"description": "Data for embedded Wix Bookings content."
+					},
+					"eventData": {
+						"$ref": "#/components/schemas/EventData",
+						"description": "Data for embedded Wix Events content."
+					},
+					"type": {
+						"$ref": "#/components/schemas/AppType",
+						"description": "The type of Wix App content being embedded."
+					},
+					"itemId": {
+						"type": "string",
+						"nullable": true,
+						"description": "The ID of the embedded content."
+					},
+					"name": {
+						"type": "string",
+						"nullable": true,
+						"description": "The name of the embedded content."
+					},
+					"imageSrc": {
+						"type": "string",
+						"nullable": true,
+						"description": "Deprecated: Use `image` instead."
+					},
+					"url": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL for the embedded content."
+					},
+					"image": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "An image for the embedded content."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PlaybackOptions": {
+				"properties": {
+					"autoPlay": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the media will automatically start playing."
+					},
+					"playInLoop": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether media's will be looped."
+					},
+					"showControls": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether media's controls will be shown."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"VideoData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the video's container."
+					},
+					"video": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Video details."
+					},
+					"thumbnail": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Video thumbnail details."
+					},
+					"disableDownload": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the video's download button is disabled."
+					},
+					"title": {
+						"type": "string",
+						"nullable": true,
+						"description": "Video title."
+					},
+					"options": {
+						"$ref": "#/components/schemas/PlaybackOptions",
+						"description": "Video options."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Oembed": {
+				"properties": {
+					"type": {
+						"type": "string",
+						"nullable": true,
+						"description": "The resource type."
+					},
+					"width": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The width of the resource specified in the `url` property in pixels."
+					},
+					"height": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The height of the resource specified in the `url` property in pixels."
+					},
+					"title": {
+						"type": "string",
+						"nullable": true,
+						"description": "Resource title."
+					},
+					"url": {
+						"type": "string",
+						"nullable": true,
+						"description": "The source URL for the resource."
+					},
+					"html": {
+						"type": "string",
+						"nullable": true,
+						"description": "HTML for embedding a video player. The HTML should have no padding or margins."
+					},
+					"authorName": {
+						"type": "string",
+						"nullable": true,
+						"description": "The name of the author or owner of the resource."
+					},
+					"authorUrl": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL for the author or owner of the resource."
+					},
+					"providerName": {
+						"type": "string",
+						"nullable": true,
+						"description": "The name of the resource provider."
+					},
+					"providerUrl": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL for the resource provider."
+					},
+					"thumbnailUrl": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL for a thumbnail image for the resource. If this property is defined, `thumbnailWidth` and `thumbnailHeight` must also be defined."
+					},
+					"thumbnailWidth": {
+						"type": "string",
+						"nullable": true,
+						"description": "The width of the resource's thumbnail image. If this property is defined, `thumbnailUrl` and `thumbnailHeight` must also be defined."
+					},
+					"thumbnailHeight": {
+						"type": "string",
+						"nullable": true,
+						"description": "The height of the resource's thumbnail image. If this property is defined, `thumbnailUrl` and `thumbnailWidth`must also be defined."
+					},
+					"videoUrl": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL for an embedded viedo."
+					},
+					"version": {
+						"type": "string",
+						"nullable": true,
+						"description": "The oEmbed version number.  This value must be `1.0`."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EmbedData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the oEmbed node's container."
+					},
+					"oembed": {
+						"$ref": "#/components/schemas/Oembed",
+						"description": "An [oEmbed](https://www.oembed.com) object."
+					},
+					"src": {
+						"type": "string",
+						"nullable": true,
+						"description": "Origin asset source."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InitialExpandedItems": {
+				"enum": [
+					"FIRST",
+					"ALL",
+					"NONE"
+				],
+				"type": "string"
+			},
+			"Direction": {
+				"enum": [
+					"LTR",
+					"RTL"
+				],
+				"type": "string"
+			},
+			"CollapsibleListData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the collapsible list's container."
+					},
+					"expandOnlyOne": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "If `true`, only one item can be expanded at a time."
+					},
+					"initialExpandedItems": {
+						"$ref": "#/components/schemas/InitialExpandedItems",
+						"description": "Sets which items are expanded when the page loads."
+					},
+					"direction": {
+						"$ref": "#/components/schemas/Direction",
+						"description": "The direction of the text in the list. Either left-to-right or right-to-left."
+					},
+					"isQapageData": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "If `true`, The collapsible item will appear in search results as an FAQ."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Dimensions": {
+				"properties": {
+					"colsWidthRatio": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array",
+						"description": "An array representing relative width of each column in relation to the other columns."
+					},
+					"rowsHeight": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array",
+						"description": "An array representing the height of each row in pixels."
+					},
+					"colsMinWidth": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array",
+						"description": "An array representing the minimum width of each column in pixels."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TableData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the table's container."
+					},
+					"dimensions": {
+						"$ref": "#/components/schemas/Dimensions",
+						"description": "The table's dimensions."
+					},
+					"header": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Deprecated: Use `rowHeader` and `columnHeader` instead."
+					},
+					"rowHeader": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the table's first row is a header."
+					},
+					"columnHeader": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the table's first column is a header."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"VerticalAlignment": {
+				"enum": [
+					"TOP",
+					"MIDDLE",
+					"BOTTOM"
+				],
+				"type": "string"
+			},
+			"CellStyle": {
+				"properties": {
+					"verticalAlignment": {
+						"$ref": "#/components/schemas/VerticalAlignment",
+						"description": "Vertical alignment for the cell's text."
+					},
+					"backgroundColor": {
+						"type": "string",
+						"nullable": true,
+						"description": "Cell background color as a hexadecimal value."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BorderColors": {
+				"properties": {
+					"left": {
+						"type": "string",
+						"nullable": true,
+						"description": "Left border color as a hexadecimal value."
+					},
+					"right": {
+						"type": "string",
+						"nullable": true,
+						"description": "Right border color as a hexadecimal value."
+					},
+					"top": {
+						"type": "string",
+						"nullable": true,
+						"description": "Top border color as a hexadecimal value."
+					},
+					"bottom": {
+						"type": "string",
+						"nullable": true,
+						"description": "Bottom border color as a hexadecimal value."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TableCellData": {
+				"properties": {
+					"cellStyle": {
+						"$ref": "#/components/schemas/CellStyle",
+						"description": "Styling for the cell's background color and text alignment."
+					},
+					"borderColors": {
+						"$ref": "#/components/schemas/BorderColors",
+						"description": "The cell's border colors."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AudioData": {
+				"properties": {
+					"containerData": {
+						"$ref": "#/components/schemas/PluginContainerData",
+						"description": "Styling for the audio node's container."
+					},
+					"audio": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Audio file details."
+					},
+					"disableDownload": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Sets whether the audio node's download button is disabled."
+					},
+					"coverImage": {
+						"$ref": "#/components/schemas/V1Media",
+						"description": "Cover image."
+					},
+					"name": {
+						"type": "string",
+						"nullable": true,
+						"description": "Track name."
+					},
+					"authorName": {
+						"type": "string",
+						"nullable": true,
+						"description": "Author name."
+					},
+					"html": {
+						"type": "string",
+						"nullable": true,
+						"description": "An HTML version of the audio node."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OrderedListData": {
+				"properties": {
+					"indentation": {
+						"type": "number",
+						"format": "double",
+						"description": "Indentation level."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BulletedListData": {
+				"properties": {
+					"indentation": {
+						"type": "number",
+						"format": "double",
+						"description": "Indentation level."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BlockquoteData": {
+				"properties": {
+					"indentation": {
+						"type": "number",
+						"format": "double",
+						"description": "Indentation level."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NodeType": {
+				"enum": [
+					"PARAGRAPH",
+					"TEXT",
+					"HEADING",
+					"BULLETED_LIST",
+					"ORDERED_LIST",
+					"LIST_ITEM",
+					"BLOCKQUOTE",
+					"CODE_BLOCK",
+					"VIDEO",
+					"DIVIDER",
+					"FILE",
+					"GALLERY",
+					"GIF",
+					"HTML",
+					"IMAGE",
+					"LINK_PREVIEW",
+					"MAP",
+					"POLL",
+					"APP_EMBED",
+					"BUTTON",
+					"COLLAPSIBLE_LIST",
+					"TABLE",
+					"EMBED",
+					"COLLAPSIBLE_ITEM",
+					"COLLAPSIBLE_ITEM_TITLE",
+					"COLLAPSIBLE_ITEM_BODY",
+					"TABLE_CELL",
+					"TABLE_ROW",
+					"EXTERNAL",
+					"AUDIO"
+				],
+				"type": "string"
+			},
+			"Node": {
+				"properties": {
+					"buttonData": {
+						"$ref": "#/components/schemas/ButtonData",
+						"description": "Data for a button node."
+					},
+					"codeBlockData": {
+						"$ref": "#/components/schemas/CodeBlockData",
+						"description": "Data for a code block node."
+					},
+					"dividerData": {
+						"$ref": "#/components/schemas/DividerData",
+						"description": "Data for a divider node."
+					},
+					"fileData": {
+						"$ref": "#/components/schemas/FileData",
+						"description": "Data for a file node."
+					},
+					"galleryData": {
+						"$ref": "#/components/schemas/GalleryData",
+						"description": "Data for a gallery node."
+					},
+					"gifData": {
+						"$ref": "#/components/schemas/GIFData",
+						"description": "Data for a GIF node."
+					},
+					"headingData": {
+						"$ref": "#/components/schemas/HeadingData",
+						"description": "Data for a heading node."
+					},
+					"htmlData": {
+						"$ref": "#/components/schemas/HTMLData",
+						"description": "Data for an embedded HTML node."
+					},
+					"imageData": {
+						"$ref": "#/components/schemas/ImageData",
+						"description": "Data for an image node."
+					},
+					"linkPreviewData": {
+						"$ref": "#/components/schemas/LinkPreviewData",
+						"description": "Data for a link preview node."
+					},
+					"mapData": {
+						"$ref": "#/components/schemas/MapData",
+						"description": "Data for a map node."
+					},
+					"paragraphData": {
+						"$ref": "#/components/schemas/ParagraphData",
+						"description": "Data for a paragraph node."
+					},
+					"pollData": {
+						"$ref": "#/components/schemas/PollData",
+						"description": "Data for a poll node."
+					},
+					"textData": {
+						"$ref": "#/components/schemas/TextData",
+						"description": "Data for a text node. Used to apply decorations to text."
+					},
+					"appEmbedData": {
+						"$ref": "#/components/schemas/AppEmbedData",
+						"description": "Data for an app embed node."
+					},
+					"videoData": {
+						"$ref": "#/components/schemas/VideoData",
+						"description": "Data for a video node."
+					},
+					"embedData": {
+						"$ref": "#/components/schemas/EmbedData",
+						"description": "Data for an oEmbed node."
+					},
+					"collapsibleListData": {
+						"$ref": "#/components/schemas/CollapsibleListData",
+						"description": "Data for a collapsible list node."
+					},
+					"tableData": {
+						"$ref": "#/components/schemas/TableData",
+						"description": "Data for a table node."
+					},
+					"tableCellData": {
+						"$ref": "#/components/schemas/TableCellData",
+						"description": "Data for a table cell node."
+					},
+					"externalData": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Record_string.any_"
+							}
+						],
+						"nullable": true,
+						"description": "Data for a custon external node."
+					},
+					"audioData": {
+						"$ref": "#/components/schemas/AudioData",
+						"description": "Data for an audio node."
+					},
+					"orderedListData": {
+						"$ref": "#/components/schemas/OrderedListData",
+						"description": "Data for an ordered list node."
+					},
+					"bulletedListData": {
+						"$ref": "#/components/schemas/BulletedListData",
+						"description": "Data for a bulleted list node."
+					},
+					"blockquoteData": {
+						"$ref": "#/components/schemas/BlockquoteData",
+						"description": "Data for a block quote node."
+					},
+					"type": {
+						"$ref": "#/components/schemas/NodeType",
+						"description": "Node type. Use `APP_EMBED` for nodes that embed content from other Wix apps. Use `EMBED` to embed content in [oEmbed](https://oembed.com/) format."
+					},
+					"_id": {
+						"type": "string",
+						"description": "Node ID."
+					},
+					"nodes": {
+						"items": {
+							"$ref": "#/components/schemas/Node"
+						},
+						"type": "array",
+						"description": "A list of child nodes."
+					},
+					"style": {
+						"$ref": "#/components/schemas/NodeStyle",
+						"description": "Padding and background color styling for the node."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NodeStyle": {
+				"properties": {
+					"paddingTop": {
+						"type": "string",
+						"nullable": true,
+						"description": "The top padding value in pixels."
+					},
+					"paddingBottom": {
+						"type": "string",
+						"nullable": true,
+						"description": "The bottom padding value in pixels."
+					},
+					"backgroundColor": {
+						"type": "string",
+						"nullable": true,
+						"description": "The background color as a hexadecimal value."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Metadata": {
+				"properties": {
+					"version": {
+						"type": "number",
+						"format": "double",
+						"description": "Schema version."
+					},
+					"createdTimestamp": {
+						"type": "string",
+						"format": "date-time",
+						"description": "When the object was created."
+					},
+					"updatedTimestamp": {
+						"type": "string",
+						"format": "date-time",
+						"description": "When the object was most recently updated."
+					},
+					"_id": {
+						"type": "string",
+						"nullable": true,
+						"description": "Object ID."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TextNodeStyle": {
+				"properties": {
+					"decorations": {
+						"items": {
+							"$ref": "#/components/schemas/Decoration"
+						},
+						"type": "array",
+						"description": "The decorations to apply to the node."
+					},
+					"nodeStyle": {
+						"$ref": "#/components/schemas/NodeStyle",
+						"description": "Padding and background color for the node."
+					},
+					"lineHeight": {
+						"type": "string",
+						"nullable": true,
+						"description": "Line height for text in the node."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DocumentStyle": {
+				"properties": {
+					"headerOne": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for H1 nodes."
+					},
+					"headerTwo": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for H2 nodes."
+					},
+					"headerThree": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for H3 nodes."
+					},
+					"headerFour": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for H4 nodes."
+					},
+					"headerFive": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for H5 nodes."
+					},
+					"headerSix": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for H6 nodes."
+					},
+					"paragraph": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for paragraph nodes."
+					},
+					"blockquote": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for block quote nodes."
+					},
+					"codeBlock": {
+						"$ref": "#/components/schemas/TextNodeStyle",
+						"description": "Styling for code block nodes."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RichContent": {
+				"properties": {
+					"nodes": {
+						"items": {
+							"$ref": "#/components/schemas/Node"
+						},
+						"type": "array",
+						"description": "Node objects representing a rich content document."
+					},
+					"metadata": {
+						"$ref": "#/components/schemas/Metadata",
+						"description": "Object metadata."
+					},
+					"documentStyle": {
+						"$ref": "#/components/schemas/DocumentStyle",
+						"description": "Global styling for header, paragraph, block quote, and code block nodes in the object."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ModerationStatusStatus": {
+				"enum": [
+					"UNKNOWN",
+					"APPROVED",
+					"REJECTED"
+				],
+				"type": "string"
+			},
+			"ModerationDetails": {
+				"properties": {
+					"submittedBy": {
+						"type": "string",
+						"description": "Member ID of the person who submitted the post."
+					},
+					"submittedDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date and time the post was submitted for moderation."
+					},
+					"status": {
+						"$ref": "#/components/schemas/ModerationStatusStatus",
+						"description": "Status indicating whether the submission was approved or rejected by the moderator.\n\nSupported values: `'APPROVED'`, `'REJECTED'`, `'PENDING'`."
+					},
+					"moderatedBy": {
+						"type": "string",
+						"nullable": true,
+						"description": "Member ID of the person who approved or rejected the post."
+					},
+					"moderationDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date and time the post was approved or rejected by a moderator."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"WixMedia": {
+				"properties": {
+					"image": {
+						"type": "string",
+						"description": "Image details."
+					},
+					"videoV2": {
+						"type": "string",
+						"description": "Video details."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EmbedThumbnail": {
+				"properties": {
+					"url": {
+						"type": "string",
+						"description": "Thumbnail url."
+					},
+					"width": {
+						"type": "number",
+						"format": "double",
+						"description": "Thumbnail width."
+					},
+					"height": {
+						"type": "number",
+						"format": "double",
+						"description": "Thumbnail height."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EmbedVideo": {
+				"properties": {
+					"url": {
+						"type": "string",
+						"description": "Video url."
+					},
+					"width": {
+						"type": "number",
+						"format": "double",
+						"description": "Video width."
+					},
+					"height": {
+						"type": "number",
+						"format": "double",
+						"description": "Video height."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EmbedMedia": {
+				"properties": {
+					"thumbnail": {
+						"$ref": "#/components/schemas/EmbedThumbnail",
+						"description": "Thumbnail details."
+					},
+					"video": {
+						"$ref": "#/components/schemas/EmbedVideo",
+						"description": "Video details."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Media": {
+				"properties": {
+					"wixMedia": {
+						"$ref": "#/components/schemas/WixMedia",
+						"description": "Wix Media details."
+					},
+					"embedMedia": {
+						"$ref": "#/components/schemas/EmbedMedia",
+						"description": "Embed media details."
+					},
+					"displayed": {
+						"type": "boolean",
+						"description": "Whether cover media is displayed."
+					},
+					"custom": {
+						"type": "boolean",
+						"description": "Whether the cover media is custom.\n\n`false` if the cover media is the first image or video in the post. `true` if set to some other image or video."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Post": {
+				"properties": {
+					"_id": {
+						"type": "string",
+						"description": "Post ID."
+					},
+					"title": {
+						"type": "string",
+						"description": "Post title."
+					},
+					"excerpt": {
+						"type": "string",
+						"description": "Post excerpt.\nCan be selected by a site contributor. By default, it is extracted from the content text's first characters.\n\nMax: 500 characters"
+					},
+					"contentText": {
+						"type": "string",
+						"nullable": true,
+						"description": "The post's content in plain text."
+					},
+					"firstPublishedDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date the post was first published."
+					},
+					"lastPublishedDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date the post was last published."
+					},
+					"url": {
+						"type": "string",
+						"description": "Post URL."
+					},
+					"slug": {
+						"type": "string",
+						"description": "Part of a post's URL that refers to a specific post.\n\n\nFor example, `'https:/example.com/posts/my-post-slug'`."
+					},
+					"featured": {
+						"type": "boolean",
+						"description": "Whether the post is marked as featured."
+					},
+					"pinned": {
+						"type": "boolean",
+						"description": "Whether the post is pinned. If `true`, the post is placed at the top of the post list."
+					},
+					"categoryIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "[Category IDs](https://www.wix.com/velo/reference/wix-blog-backend/categories) of the post."
+					},
+					"coverMedia": {
+						"$ref": "#/components/schemas/CoverMedia",
+						"description": "Reserved for internal use."
+					},
+					"memberId": {
+						"type": "string",
+						"description": "Post owner's [member ID](https://www.wix.com/velo/reference/wix-members-backend)."
+					},
+					"hashtags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Hashtags in the post."
+					},
+					"commentingEnabled": {
+						"type": "boolean",
+						"description": "Whether commenting on the post is enabled."
+					},
+					"minutesToRead": {
+						"type": "number",
+						"format": "double",
+						"description": "Estimated reading time."
+					},
+					"heroImage": {
+						"type": "string",
+						"description": "Image placed at the top of the blog page. Only displays on mobile devices."
+					},
+					"tagIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "IDs of [tags](https://www.wix.com/velo/reference/wix-blog-backend/tags) the post is tagged with."
+					},
+					"relatedPostIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "IDs of posts related to the post."
+					},
+					"pricingPlanIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Pricing plan IDs.\n\n\nIf a post is assigned to a specific pricing plan."
+					},
+					"translationId": {
+						"type": "string",
+						"nullable": true,
+						"description": "ID of the post's translations when [Wix Multilingual](https://support.wix.com/en/article/wix-multilingual-translating-your-blog) is installed on a site. All translations of a single post will share the same `translationId`."
+					},
+					"language": {
+						"type": "string",
+						"nullable": true,
+						"description": "Language the post is written in.\n\n2-letter language code in [ISO 639-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format."
+					},
+					"seoData": {
+						"$ref": "#/components/schemas/SeoSchema",
+						"description": "SEO data."
+					},
+					"content": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"contactId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Post owner's [contact ID](https://www.wix.com/velo/reference/wix-crm-backend/contacts)."
+					},
+					"richContent": {
+						"$ref": "#/components/schemas/RichContent",
+						"description": "Post rich content"
+					},
+					"preview": {
+						"type": "boolean",
+						"description": "Whether the returned content is a preview of premium content. Defaults to `false`.\nA preview displays a limited number of paragraphs of paid content to non-subscribed users."
+					},
+					"contentId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"mostRecentContributorId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"moderationDetails": {
+						"$ref": "#/components/schemas/ModerationDetails",
+						"description": "Post moderation details.\n\n\nOnly relevant to posts submitted by [guest writers](https://support.wix.com/en/article/wix-blog-moderating-blog-posts-from-your-guest-writers). Guest writers have the ability to write posts but not publish them. These posts can be rejected or approved for publishing by a blog editor or site owner."
+					},
+					"media": {
+						"$ref": "#/components/schemas/Media",
+						"description": "Post cover media."
+					},
+					"hasUnpublishedChanges": {
+						"type": "boolean",
+						"description": "Indicates if there is a draft post with changes that have not yet been published."
+					},
+					"internalId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"internalCategoryIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Reserved for internal use."
+					},
+					"internalRelatedPostIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Reserved for internal use."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MetaData": {
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double",
+						"description": "Number of items returned in this response."
+					},
+					"offset": {
+						"type": "number",
+						"format": "double",
+						"description": "Number of items skipped in the current sort order."
+					},
+					"total": {
+						"type": "number",
+						"format": "double",
+						"description": "Total number of items that match the query."
+					},
+					"cursor": {
+						"type": "string",
+						"nullable": true,
+						"description": "Pointer to the next or previous page in the list of results."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ListPostsResponse": {
+				"properties": {
+					"posts": {
+						"items": {
+							"$ref": "#/components/schemas/Post"
+						},
+						"type": "array",
+						"description": "List of posts."
+					},
+					"metaData": {
+						"$ref": "#/components/schemas/MetaData",
+						"description": "Details on the paged set of results returned."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "thinker-node-app",
+		"version": "1.0.2",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/post": {
+			"get": {
+				"operationId": "Handle",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListPostsResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
