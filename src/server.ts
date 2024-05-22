@@ -40,6 +40,7 @@ app.get('/posts', async (req, res) => {
 app.post('/webhook', async (req, res) => {
   const appController = new AppController()
   const response = await appController.handleWebhook()
+  console.log(response)
   return res.send(response)
 })
 
