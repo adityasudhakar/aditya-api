@@ -31,7 +31,7 @@ const wixClient = createClient({
   modules: { categories, items, posts },
   auth:OAuthStrategy({ clientId: '52ea8bca-a466-4157-928b-78d57806dc60'   })
 });
-app.get('/posts', async (req, res) => {
+app.get('/post', async (req, res) => {
   const appController = new AppController()
   const response = await appController.handle()
   return res.send(response);
