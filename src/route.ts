@@ -47,7 +47,7 @@ interface hookresponse{
 
 const wixClient = createClient({
   modules: { categories, items, posts },
-  auth:OAuthStrategy({ clientId: '52ea8bca-a466-4157-928b-78d57806dc60'   })
+  auth:OAuthStrategy({ clientId: '5db0803d-1ca5-4a06-a68d-9a9e6a718062'   })
 });
 
 @Route("/")

@@ -2623,6 +2623,18 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"hookresponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -2646,6 +2658,25 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/ListPostsResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/webhook": {
+			"post": {
+				"operationId": "HandleWebhook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/hookresponse"
 								}
 							}
 						}
