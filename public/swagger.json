@@ -11,6 +11,9 @@
 	"info": {
 		"title": "Blog API",
 		"version": "1.0.2",
+		"license": {
+			"name": ""
+		},
 		"contact": {}
 	},
 	"paths": {
