@@ -177,6 +177,18 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"hookresponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		}
 	},
