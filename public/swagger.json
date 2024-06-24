@@ -6,14 +6,183 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"securitySchemes": {}
+		"schemas": {
+			"Post": {
+				"properties": {
+					"_id": {
+						"type": "string",
+						"description": "Post ID."
+					},
+					"title": {
+						"type": "string",
+						"description": "Post title."
+					},
+					"excerpt": {
+						"type": "string",
+						"description": "Post excerpt.\nCan be selected by a site contributor. By default, it is extracted from the content text's first characters.\n\nMax: 500 characters"
+					},
+					"contentText": {
+						"type": "string",
+						"nullable": true,
+						"description": "The post's content in plain text."
+					},
+					"firstPublishedDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date the post was first published."
+					},
+					"lastPublishedDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date the post was last published."
+					},
+					"url": {
+						"type": "string",
+						"description": "Post URL."
+					},
+					"slug": {
+						"type": "string",
+						"description": "Part of a post's URL that refers to a specific post.\n\n\nFor example, `'https:/example.com/posts/my-post-slug'`."
+					},
+					"featured": {
+						"type": "boolean",
+						"description": "Whether the post is marked as featured."
+					},
+					"pinned": {
+						"type": "boolean",
+						"description": "Whether the post is pinned. If `true`, the post is placed at the top of the post list."
+					},
+					"categoryIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "[Category IDs](https://www.wix.com/velo/reference/wix-blog-backend/categories) of the post."
+					},
+					"memberId": {
+						"type": "string",
+						"description": "Post owner's [member ID](https://www.wix.com/velo/reference/wix-members-backend)."
+					},
+					"hashtags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Hashtags in the post."
+					},
+					"commentingEnabled": {
+						"type": "boolean",
+						"description": "Whether commenting on the post is enabled."
+					},
+					"minutesToRead": {
+						"type": "number",
+						"format": "double",
+						"description": "Estimated reading time."
+					},
+					"heroImage": {
+						"type": "string",
+						"description": "Image placed at the top of the blog page. Only displays on mobile devices."
+					},
+					"tagIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "IDs of [tags](https://www.wix.com/velo/reference/wix-blog-backend/tags) the post is tagged with."
+					},
+					"relatedPostIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "IDs of posts related to the post."
+					},
+					"pricingPlanIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Pricing plan IDs.\n\n\nIf a post is assigned to a specific pricing plan."
+					},
+					"translationId": {
+						"type": "string",
+						"nullable": true,
+						"description": "ID of the post's translations when [Wix Multilingual](https://support.wix.com/en/article/wix-multilingual-translating-your-blog) is installed on a site. All translations of a single post will share the same `translationId`."
+					},
+					"language": {
+						"type": "string",
+						"nullable": true,
+						"description": "Language the post is written in.\n\n2-letter language code in [ISO 639-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format."
+					},
+					"content": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"contactId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Post owner's [contact ID](https://www.wix.com/velo/reference/wix-crm-backend/contacts)."
+					},
+					"preview": {
+						"type": "boolean",
+						"description": "Whether the returned content is a preview of premium content. Defaults to `false`.\nA preview displays a limited number of paragraphs of paid content to non-subscribed users."
+					},
+					"contentId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"mostRecentContributorId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"hasUnpublishedChanges": {
+						"type": "boolean",
+						"description": "Indicates if there is a draft post with changes that have not yet been published."
+					},
+					"internalId": {
+						"type": "string",
+						"nullable": true,
+						"description": "Reserved for internal use."
+					},
+					"internalCategoryIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Reserved for internal use."
+					},
+					"internalRelatedPostIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Reserved for internal use."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ListPostsResponse": {
+				"properties": {
+					"posts": {
+						"items": {
+							"$ref": "#/components/schemas/Post"
+						},
+						"type": "array",
+						"description": "List of posts."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			}
+		}
 	},
 	"info": {
 		"title": "Blog API",
 		"version": "1.0.2",
-		"license": {
-			"name": ""
-		},
 		"contact": {}
 	},
 	"paths": {
